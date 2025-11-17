@@ -19,6 +19,8 @@ function formatValue(input: InputType): InputType {
 
 
 
+
+
 type LengthType = string | any[];
 function getLength(input: LengthType): number {
     if (typeof input === "string") {
@@ -29,6 +31,8 @@ function getLength(input: LengthType): number {
         throw new Error("Invalid input type");
     }
 }
+
+
 
 
 
@@ -46,6 +50,8 @@ class Person {
 
 
 
+
+
 type BookType = {
     title: string;
     rating: number;
@@ -53,6 +59,8 @@ type BookType = {
 function filterByRating(books: BookType[]): BookType[] {
     return books.filter((book) => book.rating >= 4)
 }
+
+
 
 
 
@@ -68,6 +76,8 @@ function filterActiveUsers(users: UserType[]): UserType[] {
 
 
 
+
+
 interface Book {
     title: string;
     author: string;
@@ -79,6 +89,38 @@ function printBookDetails(book: Book): string {
     const result = `Title: ${book.title}, Author: ${book.author}, Published: ${book.publishedYear}, Available: ${availability}`;
     return result;
 }
+
+
+
+
+
+type ArrrayType = string | number;
+function getUniqueValues(arr1: ArrrayType[], arr2: ArrrayType[]): ArrrayType[] {
+    const result: ArrrayType[] = [];
+    function exists(array: ArrrayType[], value: ArrrayType): boolean {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+    for (let i = 0; i < arr1.length; i++) {
+        if (!exists(result, arr1[i])) {
+            result.push(arr1[i]);
+        }
+    }
+    for (let i = 0; i < arr2.length; i++) {
+        if (!exists(result, arr2[i])) {
+            result.push(arr2[i]);
+        }
+    }
+    return result;
+}
+
+
+
+
 
 type Product = {
     name: string;
