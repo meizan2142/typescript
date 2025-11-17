@@ -4,7 +4,7 @@
 * Interface-এ intersection ব্যবহার করা যায় না। আর Type-এর মধ্যে intersection ব্যবহার করে অনেকগুলো value-type একসাথে দেওয়া যায়। যেমন: type Book = string | number | boolean
 
 
-### Enums in Typescript: 
+# Enums in Typescript: 
 * TypeScript-এ enum ব্যবহার করা হয় নির্দিষ্ট কিছু মানকে একজোট করতে। যখন কোডে কোনও মান বারবার ব্যবহার করতে হবে এবং সেই মানগুলোর জন্য readable ও meaningful নাম দরকার হয়—তখন enum খুবই কাজে লাগে।
 
 ### String enum
