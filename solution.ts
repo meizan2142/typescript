@@ -36,6 +36,7 @@ function getLength(input: LengthType): number {
 
 
 
+
 class Person {
     name: string;
     age: number;
@@ -52,13 +53,21 @@ class Person {
 
 
 
+
 type BookType = {
     title: string;
     rating: number;
 }
 function filterByRating(books: BookType[]): BookType[] {
-    return books.filter((book) => book.rating >= 4)
+    return books
+        .filter((book) => {
+            if (book.rating < 0 || book.rating > 5) {
+                throw new Error(`Invalid rating ${book.rating}. Rating must be between 0 and 5.`);
+            }
+            return book.rating >= 4;
+        });
 }
+
 
 
 
@@ -73,6 +82,7 @@ type UserType = {
 function filterActiveUsers(users: UserType[]): UserType[] {
     return users.filter((user) => user.isActive === true)
 }
+
 
 
 
@@ -94,29 +104,26 @@ function printBookDetails(book: Book): string {
 
 
 
-type ArrrayType = string | number;
-function getUniqueValues(arr1: ArrrayType[], arr2: ArrrayType[]): ArrrayType[] {
-    const result: ArrrayType[] = [];
-    function exists(array: ArrrayType[], value: ArrrayType): boolean {
-        for (let i = 0; i < array.length; i++) {
-            if (array[i] === value) {
-                return true;
-            }
-        }
-        return false;
-    }
-    for (let i = 0; i < arr1.length; i++) {
-        if (!exists(result, arr1[i])) {
-            result.push(arr1[i]);
+
+
+type ArrayType = string | number;
+function getUniqueValues(arr1: ArrayType[], arr2: ArrayType[]): ArrayType[] {
+    let result: ArrayType[] = [];
+    function addIfNotExists(array: ArrayType[], value: ArrayType): void {
+        if (!array.includes(value)) {
+            array.push(value);
         }
     }
-    for (let i = 0; i < arr2.length; i++) {
-        if (!exists(result, arr2[i])) {
-            result.push(arr2[i]);
-        }
+    for (let item of arr1) {
+        addIfNotExists(result, item);
+    }
+    for (let item of arr2) {
+        addIfNotExists(result, item);
     }
     return result;
 }
+
+
 
 
 
@@ -128,20 +135,19 @@ type Product = {
     quantity: number;
     discount?: number;
 };
-
 function calculateTotalPrice(products: Product[]): number {
     return products
         .map((product) => {
-            const baseTotal = product.price * product.quantity;
+            const totalAmount = product.price * product.quantity;
             if (product.discount !== undefined) {
-                const discountAmount = (baseTotal * product.discount) / 100;
-                return baseTotal - discountAmount;
+                if (product.discount < 0 || product.discount > 100) {
+                    throw new Error(`Invalid discount ${product.discount}. Discount must be between 0 and 100.`)
+                }
+                const discountAmount = (totalAmount * product.discount) / 100;
+                const remainingAmount = totalAmount - discountAmount;
+                return remainingAmount;
             }
-
-            return baseTotal;
+            return totalAmount;
         })
         .reduce((sum, current) => sum + current, 0);
 }
-
-
-
